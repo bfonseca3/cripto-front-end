@@ -10,7 +10,6 @@ import Link from "next/link";
 import { parseCookies } from "nookies";
 
 export default function CoinEspecific({ coin }: { coin: CriptoResponse }) {
-  console.log(coin);
   return (
     <Flex w="100%" justify="center" overflow={"scroll"} flexDir={"column"}>
       <Flex align="center" mt="30px" ml="30px">
@@ -38,7 +37,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id }: any = context.params;
   const cookie = parseCookies(context);
 
-  const { data } = await axios.get(`http://localhost:3000/coin/take/${id}`);
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/take/${id}`
+  );
 
   if (!cookie["cripto.auth"]) {
     return {

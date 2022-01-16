@@ -3,6 +3,7 @@ import { FormEvent, useState } from "react";
 import { parseCookies, setCookie } from "nookies";
 import Router from "next/router";
 import { GetServerSideProps } from "next";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Login() {
   const [login, setLogin] = useState("");
@@ -15,11 +16,14 @@ export default function Login() {
       setCookie(null, "cripto.auth", "ed73fcf3-20ce-4dbb-afe8-a6fe7a70bd54");
 
       Router.push("/");
+    } else {
+      toast.error("Login or password invalid");
     }
   }
 
   return (
     <Flex w="100%" h="100vh" align="center" justify="center" bg="#FAFAFA">
+      <Toaster />
       <Flex
         w="500px"
         h="400px"

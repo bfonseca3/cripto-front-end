@@ -12,6 +12,7 @@ import { Progress } from "../components/Progress";
 import { AiOutlineLogout } from "react-icons/ai";
 import Router from "next/router";
 import { SearchBox } from "../components/SearchBox";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Home() {
   const [page, setPage] = useState<number>(1);
@@ -23,7 +24,7 @@ export default function Home() {
     setCripto([]);
 
     const { data } = await axios.get<AxiosResponseCoins>(
-      "http://localhost:3000/coin/filter/front",
+      `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/filter/front`,
       {
         params: { start: page - 1 },
       }
@@ -49,6 +50,7 @@ export default function Home() {
     }
     const value = cripto.filter((element) => element.name.includes(search));
     if (value.length == 0) {
+      toast.error("Coin not exist in this list");
       setSearch("");
     }
     setCripto(value);
@@ -57,7 +59,7 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       const { data } = await axios.get<AxiosResponseCoins>(
-        "http://localhost:3000/coin/filter/front",
+        `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/filter/front`,
         { params: { start: page - 1 } }
       );
 
@@ -76,6 +78,7 @@ export default function Home() {
 
   return (
     <Flex w="100%" justify="center" flexDir={"column"}>
+      <Toaster />
       <Flex justify="space-between" w="full" px="30px" mt="20px" mb="20px">
         <Text fontSize={"40"}>CriptoLab</Text>
         <Flex w="full" alignItems={"right"} justify="end" mr="20px">

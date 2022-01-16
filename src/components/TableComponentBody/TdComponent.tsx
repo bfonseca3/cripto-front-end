@@ -12,7 +12,6 @@ export function TdComponent({
   align = false,
 }: TdProps) {
   if (color) {
-    console.log(element);
     return <Td color={Number(element) <= 0 ? "red" : "green"}>{element}</Td>;
   }
 
