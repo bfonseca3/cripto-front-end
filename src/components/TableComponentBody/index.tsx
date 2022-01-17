@@ -22,7 +22,7 @@ function TableComponentBodyComponent({ cripto }: { cripto: CriptoResponse[] }) {
             <TdComponent isNumber element={index + 1} width={70} />
             <TdComponent>
               <Link passHref href={`/cripto/${element.id_coin}`}>
-                <LinkChakra>
+                <LinkChakra color="darkblue">
                   {element.name} {`[${element.symbol}]`}
                 </LinkChakra>
               </Link>

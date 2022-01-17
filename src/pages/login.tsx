@@ -13,7 +13,10 @@ export default function Login() {
     e.preventDefault();
 
     if (password == "bruno123" && login == "bruno") {
-      setCookie(null, "cripto.auth", "ed73fcf3-20ce-4dbb-afe8-a6fe7a70bd54");
+      setCookie(null, "cripto.auth", "ed73fcf3-20ce-4dbb-afe8-a6fe7a70bd54", {
+        maxAge: 10800, // 3horas
+        path: "/",
+      });
 
       Router.push("/");
     } else {
