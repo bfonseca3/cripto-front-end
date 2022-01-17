@@ -17,7 +17,6 @@ interface HomeProps {
 }
 
 export default function Home({ criptoServerSide }: HomeProps) {
-  console.log(criptoServerSide);
   const [page, setPage] = useState<number>(1);
   const [cripto, setCripto] = useState<CriptoResponse[]>([]);
   const [search, setSearch] = useState("");
