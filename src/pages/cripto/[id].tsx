@@ -12,7 +12,7 @@ import { parseCookies } from "nookies";
 export default function CoinEspecific({ coin }: { coin: CriptoResponse }) {
   return (
     <Flex w="100%" justify="center" flexDir={"column"}>
-      <Flex align="center" mt="30px" ml="30px">
+      <Flex align="center" mt="30px" ml="30px" mb="30px">
         <Link passHref href="/">
           <Icon
             as={BsFillArrowLeftCircleFill}
@@ -25,7 +25,7 @@ export default function CoinEspecific({ coin }: { coin: CriptoResponse }) {
         </Text>
       </Flex>
       <ButtonFloating />
-      <Table variant="simple" size="lg">
+      <Table variant="simple" size="sm">
         <TablePageFilter />
         <TablePageFilterBody history={coin.history} />
       </Table>

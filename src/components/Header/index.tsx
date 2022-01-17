@@ -38,9 +38,9 @@ export function Header({
       }
     );
 
-    const criptoFilter = data.filter
-      .splice(0, 100)
-      .filter((element) => element.history.length > 0);
+    const criptoFilter = data.filter.filter(
+      (element) => element.history.length > 0
+    );
 
     setCripto(criptoFilter);
   }

@@ -20,7 +20,7 @@ function TableComponentBodyComponent({ cripto }: { cripto: CriptoResponse[] }) {
         return (
           <Tr key={element.id} display="flex">
             <TdComponent isNumber element={index + 1} width={70} />
-            <TdComponent width={200}>
+            <TdComponent>
               <Link passHref href={`/cripto/${element.id_coin}`}>
                 <LinkChakra>
                   {element.name} {`[${element.symbol}]`}
@@ -29,7 +29,6 @@ function TableComponentBodyComponent({ cripto }: { cripto: CriptoResponse[] }) {
             </TdComponent>
             <TdComponent
               isNumber
-              width={200}
               element={
                 element.history.length > 0
                   ? formatDate(element.history[0]?.date)
@@ -37,77 +36,57 @@ function TableComponentBodyComponent({ cripto }: { cripto: CriptoResponse[] }) {
               }
             />
 
+            <TdComponent element={element.history[0]?.price} isPrice />
             <TdComponent
-              width={200}
-              element={element.history[0]?.price}
-              isPrice
-            />
-            <TdComponent
-              width={200}
               isNumber
               element={formatNumber(element.history[0]?.valume_24h)}
             />
             <TdComponent
               element={formatNumber(element.history[0]?.volume_change_24h)}
-              width={200}
               isNumber
             />
             <TdComponent
               isValue
-              width={200}
               element={formatNumber(element.history[0]?.percent_change_24h)}
             />
 
             <TdComponent
               isValue
-              width={200}
               element={formatNumber(element.history[0]?.percent_change_1h)}
             />
             <TdComponent
               isValue
-              width={200}
               element={formatNumber(element.history[0]?.percent_change_7d)}
             />
             <TdComponent
               isValue
-              width={200}
               element={formatNumber(element.history[0]?.percent_change_30d)}
             />
             <TdComponent
               isValue
-              width={200}
               element={formatNumber(element.history[0]?.percent_change_60d)}
             />
             <TdComponent
               isValue
-              width={200}
               element={formatNumber(element.history[0]?.percent_change_90d)}
             />
 
+            <TdComponent element={element.history[0]?.market_cap} isPrice />
             <TdComponent
-              width={200}
-              element={element.history[0]?.market_cap}
-              isPrice
-            />
-            <TdComponent
-              width={200}
               element={element.history[0]?.market_cap_dominance}
               isPrice
             />
             <TdComponent
               isNumber
               element={formatNumber(element.history[0]?.circulating_supply)}
-              width={200}
             />
             <TdComponent
               isNumber
               element={formatNumber(element.history[0]?.total_supply)}
-              width={200}
             />
             <TdComponent
               isNumber
               element={formatNumber(element.history[0]?.max_supply)}
-              width={200}
             />
           </Tr>
         );

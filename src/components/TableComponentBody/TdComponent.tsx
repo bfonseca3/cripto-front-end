@@ -8,7 +8,7 @@ interface TdProps {
   isNumber?: boolean;
   isValue?: boolean;
   isPrice?: boolean;
-  width: number;
+  width?: number;
   children?: ReactNode;
 }
 
@@ -16,7 +16,7 @@ export function TdComponent({
   element,
   isNumber = false,
   isValue = false,
-  width,
+  width = 200,
   children,
   isPrice = false,
 }: TdProps) {
@@ -78,6 +78,7 @@ export function TdComponent({
         w={`${width}px`}
         fontSize=".8rem"
         p=".5rem"
+        overflow={"hidden"}
       >
         ${Number(element).toFixed(10)}
       </Td>
