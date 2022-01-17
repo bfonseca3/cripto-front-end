@@ -11,7 +11,7 @@ import { parseCookies } from "nookies";
 
 export default function CoinEspecific({ coin }: { coin: CriptoResponse }) {
   return (
-    <Flex w="100%" justify="center" overflow={"scroll"} flexDir={"column"}>
+    <Flex w="100%" justify="center" flexDir={"column"}>
       <Flex align="center" mt="30px" ml="30px">
         <Link passHref href="/">
           <Icon
