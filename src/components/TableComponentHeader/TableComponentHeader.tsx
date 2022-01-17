@@ -1,25 +1,27 @@
 import { Th, Thead, Tr } from "@chakra-ui/react";
+import { ThComponents } from "./ThComponent";
 
 export function TableComponentHeader() {
   return (
     <Thead>
-      <Tr>
-        <Th>Name</Th>
-        <Th textAlign="center">Last Updated</Th>
-        <Th>Price</Th>
-        <Th>Volume 24Hr</Th>
-        <Th textAlign="center">Volume Change 24hr</Th>
-        <Th textAlign="center">% Change 24hr</Th>
-        <Th textAlign="center">% Change 1hr</Th>
-        <Th textAlign="center">% Change 7d</Th>
-        <Th textAlign="center">% Change 30d</Th>
-        <Th textAlign="center">% Change 60d</Th>
-        <Th textAlign="center">% Change 90d</Th>
-        <Th textAlign="center">Market Cap</Th>
-        <Th textAlign="center">Market Cap Dominance</Th>
-        <Th textAlign="center">Circulating_supply</Th>
-        <Th textAlign="center">Total Supply</Th>
-        <Th textAlign="center">Max Supply</Th>
+      <Tr d="flex">
+        <ThComponents width={70}>Index</ThComponents>
+        <ThComponents>Name</ThComponents>
+        <ThComponents>Last Updated</ThComponents>
+        <ThComponents>Price</ThComponents>
+        <ThComponents>Volume 24Hr</ThComponents>
+        <ThComponents>Volume Change 24hr</ThComponents>
+        <ThComponents>% Change 24hr</ThComponents>
+        <ThComponents>% Change 1hr</ThComponents>
+        <ThComponents>% Change 7d</ThComponents>
+        <ThComponents>% Change 30d</ThComponents>
+        <ThComponents>% Change 60d</ThComponents>
+        <ThComponents>% Change 90d</ThComponents>
+        <ThComponents>Market Cap</ThComponents>
+        <ThComponents>Market Cap Dominance</ThComponents>
+        <ThComponents>Circulating_supply</ThComponents>
+        <ThComponents>Total Supply</ThComponents>
+        <ThComponents>Max Supply</ThComponents>
       </Tr>
     </Thead>
   );

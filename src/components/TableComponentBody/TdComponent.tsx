@@ -1,19 +1,88 @@
-import { Td } from "@chakra-ui/react";
+import { Icon, Td, Text } from "@chakra-ui/react";
+import { ReactNode } from "react";
+import { TiArrowDownThick, TiArrowUpThick } from "react-icons/ti";
+import { formatValores } from "../../utils/formatAll";
 
 interface TdProps {
-  element: string | number;
-  color?: boolean;
-  align?: boolean;
+  element?: string | number;
+  isNumber?: boolean;
+  isValue?: boolean;
+  isPrice?: boolean;
+  width: number;
+  children?: ReactNode;
 }
 
 export function TdComponent({
   element,
-  color = false,
-  align = false,
+  isNumber = false,
+  isValue = false,
+  width,
+  children,
+  isPrice = false,
 }: TdProps) {
-  if (color) {
-    return <Td color={Number(element) <= 0 ? "red" : "green"}>{element}</Td>;
+  if (isNumber) {
+    return (
+      <Td
+        border="1px solid #ddd"
+        d="flex"
+        w={`${width}px`}
+        fontSize=".8rem"
+        p=".5rem"
+      >
+        {element}
+      </Td>
+    );
   }
 
-  return <Td textAlign={align ? "center" : "left"}>{element}</Td>;
+  if (isValue) {
+    return (
+      <Td
+        border="1px solid #ddd"
+        d="flex"
+        w={`${width}px`}
+        fontSize=".8rem"
+        p=".5rem"
+        color={String(element).includes("-") ? "red" : "green"}
+      >
+        <Text d="inline-block">
+          <Icon
+            as={
+              String(element).includes("-") ? TiArrowDownThick : TiArrowUpThick
+            }
+            d="inline"
+          />
+          {String(element).replace("-", "")}%
+        </Text>
+      </Td>
+    );
+  }
+  if (children) {
+    return (
+      <Td
+        border="1px solid #ddd"
+        d="flex"
+        w={`${width}px`}
+        fontSize=".8rem"
+        p=".5rem"
+      >
+        {children}
+      </Td>
+    );
+  }
+
+  if (isPrice) {
+    return (
+      <Td
+        border="1px solid #ddd"
+        d="flex"
+        w={`${width}px`}
+        fontSize=".8rem"
+        p=".5rem"
+      >
+        ${Number(element).toFixed(10)}
+      </Td>
+    );
+  }
+
+  return <h1>false</h1>;
 }

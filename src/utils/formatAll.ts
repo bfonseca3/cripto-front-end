@@ -3,10 +3,7 @@ import { useCallback } from "react";
 import ptBR from "date-fns/locale/pt-BR";
 
 export const formatValores = (number: number) => {
-  const numberFormated = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(number);
+  const numberFormated = new Intl.NumberFormat("en-US").format(number);
 
   return numberFormated;
 };

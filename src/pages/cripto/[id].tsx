@@ -40,16 +40,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { data } = await axios.get(
     `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/take/${id}`
   );
-
-  if (!cookie["cripto.auth"]) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-
   return {
     props: { coin: data },
   };

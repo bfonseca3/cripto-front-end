@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Flex, Icon, Input, Table, Text } from "@chakra-ui/react";
-import { GetServerSideProps } from "next";
+import { Flex, Table } from "@chakra-ui/react";
+import { GetStaticProps } from "next";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { AxiosResponseCoins, CriptoResponse } from "../type/cripto";
@@ -9,13 +9,15 @@ import { TableComponentBody } from "../components/TableComponentBody";
 import { TableComponentHeader } from "../components/TableComponentHeader/TableComponentHeader";
 import { ButtonFloating } from "../components/ButtonFloating/ButtonFloating";
 import { Progress } from "../components/Progress";
-import { AiOutlineLogout } from "react-icons/ai";
-import Router from "next/router";
-import { SearchBox } from "../components/SearchBox";
 import toast, { Toaster } from "react-hot-toast";
 import { Header } from "../components/Header";
 
-export default function Home() {
+interface HomeProps {
+  criptoServerSide: AxiosResponseCoins;
+}
+
+export default function Home({ criptoServerSide }: HomeProps) {
+  console.log(criptoServerSide);
   const [page, setPage] = useState<number>(1);
   const [cripto, setCripto] = useState<CriptoResponse[]>([]);
   const [search, setSearch] = useState("");
@@ -36,14 +38,9 @@ export default function Home() {
 
   useEffect(() => {
     (async () => {
-      const { data } = await axios.get<AxiosResponseCoins>(
-        `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/filter/front`,
-        { params: { start: page - 1 } }
+      const criptoFilter = criptoServerSide.filter.filter(
+        (element) => element.history.length > 0
       );
-
-      const criptoFilter = data.filter
-        .splice(0, 100)
-        .filter((element) => element.history.length > 0);
 
       setCripto(criptoFilter);
       setCriptoPure(criptoFilter);
@@ -65,9 +62,8 @@ export default function Home() {
         setPage={setPage}
       />
       <ButtonFloating />
-      {/* <Pagination page={page} setPage={setPage} pageMax /> */}
 
-      <Table variant="simple" size="lg">
+      <Table variant="simple" size="sm">
         <TableComponentHeader />
         <TableComponentBody cripto={cripto} />
       </Table>
@@ -75,18 +71,14 @@ export default function Home() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const cookie = parseCookies(ctx);
+export const getStaticProps: GetStaticProps = async () => {
+  const { data: criptoServerSide } = await axios.get<AxiosResponseCoins>(
+    `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/filter/front`,
+    { params: { start: 0 } }
+  );
 
-  if (!cookie["cripto.auth"]) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
   return {
-    props: {},
+    props: { criptoServerSide },
+    revalidate: 60 * 10,
   };
 };
