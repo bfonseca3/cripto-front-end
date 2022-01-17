@@ -11,6 +11,7 @@ import { ButtonFloating } from "../components/ButtonFloating/ButtonFloating";
 import { Progress } from "../components/Progress";
 import toast, { Toaster } from "react-hot-toast";
 import { Header } from "../components/Header";
+import Router from "next/router";
 
 interface HomeProps {
   criptoServerSide: AxiosResponseCoins;
@@ -21,22 +22,36 @@ export default function Home({ criptoServerSide }: HomeProps) {
   const [cripto, setCripto] = useState<CriptoResponse[]>([]);
   const [search, setSearch] = useState("");
   const [criptoPure, setCriptoPure] = useState<CriptoResponse[]>([]);
+  const [allCoinsForSearch, setAllCoinsForSearch] = useState<CriptoResponse[]>(
+    []
+  );
 
   useEffect(() => {
     if (search == "") {
       setCripto(criptoPure);
       return;
     }
-    const value = cripto.filter((element) => element.name.includes(search));
-    if (value.length == 0) {
-      toast.error("Coin not exist in this list");
-      setSearch("");
+    if (search.length >= 3) {
+      console.log("pegou");
+      const value = allCoinsForSearch.filter((element) =>
+        element.name.includes(search)
+      );
+      if (value.length == 0) {
+        toast.error("Coin not exist in this list");
+        setSearch("");
+      }
+      setCripto(value);
     }
-    setCripto(value);
+    return;
   }, [search]);
 
   useEffect(() => {
     (async () => {
+      const { data } = await axios.get<CriptoResponse[]>(
+        `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/take/all`
+      );
+      setAllCoinsForSearch(data);
+
       const criptoFilter = criptoServerSide.filter.filter(
         (element) => element.history.length > 0
       );
@@ -46,6 +61,14 @@ export default function Home({ criptoServerSide }: HomeProps) {
     })();
   }, []);
 
+  // Redirect
+  useEffect(() => {
+    const cookie = parseCookies();
+
+    if (!cookie["cripto.auth"]) {
+      Router.push("/login");
+    }
+  }, []);
   if (cripto.length == 0) {
     return <Progress />;
   }

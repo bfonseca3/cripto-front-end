@@ -37,6 +37,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id }: any = context.params;
   const cookie = parseCookies(context);
 
+  if (!cookie["cripto.auth"]) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   const { data } = await axios.get(
     `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/take/${id}`
   );
