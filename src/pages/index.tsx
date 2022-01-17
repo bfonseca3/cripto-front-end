@@ -13,35 +13,13 @@ import { AiOutlineLogout } from "react-icons/ai";
 import Router from "next/router";
 import { SearchBox } from "../components/SearchBox";
 import toast, { Toaster } from "react-hot-toast";
+import { Header } from "../components/Header";
 
 export default function Home() {
   const [page, setPage] = useState<number>(1);
   const [cripto, setCripto] = useState<CriptoResponse[]>([]);
   const [search, setSearch] = useState("");
   const [criptoPure, setCriptoPure] = useState<CriptoResponse[]>([]);
-
-  async function handleNextPage() {
-    setCripto([]);
-
-    const { data } = await axios.get<AxiosResponseCoins>(
-      `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/filter/front`,
-      {
-        params: { start: page - 1 },
-      }
-    );
-
-    const criptoFilter = data.filter
-      .splice(0, 100)
-      .filter((element) => element.history.length > 0);
-
-    setCripto(criptoFilter);
-  }
-
-  function handleLogOut() {
-    destroyCookie(null, "cripto.auth");
-
-    Router.push("/login");
-  }
 
   useEffect(() => {
     if (search == "") {
@@ -79,25 +57,13 @@ export default function Home() {
   return (
     <Flex w="100%" justify="center" flexDir={"column"}>
       <Toaster />
-      <Flex justify="space-between" w="full" px="30px" mt="20px" mb="20px">
-        <Text fontSize={"40"}>CriptoLab</Text>
-        <Flex w="full" alignItems={"right"} justify="end" mr="20px">
-          <SearchBox search={search} setSearch={setSearch} />
-          <Input
-            value={page}
-            onChange={(e) => setPage(Number(e.target.value))}
-            w="80px"
-            placeholder="Page"
-          />
-          <Button w="80px" ml="10px" onClick={handleNextPage}>
-            Enter
-          </Button>
-        </Flex>
-        <Button onClick={handleLogOut}>
-          <Text mr="10px">Logout</Text>
-          <Icon as={AiOutlineLogout} />
-        </Button>
-      </Flex>
+      <Header
+        page={page}
+        search={search}
+        setCripto={setCripto}
+        setSearch={setSearch}
+        setPage={setPage}
+      />
       <ButtonFloating />
       {/* <Pagination page={page} setPage={setPage} pageMax /> */}
 

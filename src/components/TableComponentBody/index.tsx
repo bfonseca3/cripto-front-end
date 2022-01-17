@@ -1,8 +1,16 @@
-import { Link as LinkChakra, Tbody, Td, Text, Tr } from "@chakra-ui/react";
+import {
+  Icon,
+  Link as LinkChakra,
+  Tbody,
+  Td,
+  Text,
+  Tr,
+} from "@chakra-ui/react";
 import Link from "next/link";
 import { memo } from "react";
 import { CriptoResponse } from "../../type/cripto";
 import { formatDate, formatNumber, formatValores } from "../../utils/formatAll";
+import { TiArrowUpThick, TiArrowDownThick } from "react-icons/ti";
 
 function TableComponentBodyComponent({ cripto }: { cripto: CriptoResponse[] }) {
   return (
@@ -24,19 +32,28 @@ function TableComponentBodyComponent({ cripto }: { cripto: CriptoResponse[] }) {
             </Td>
             <Td>{formatValores(element.history[0]?.price)}</Td>
             <Td>{formatNumber(element.history[0]?.valume_24h)}</Td>
+            <Td>{formatNumber(element.history[0]?.volume_change_24h)}</Td>
             <Td
               color={
                 element.history[0]?.percent_change_24h >= 0 ? "green" : "red"
               }
             >
-              {formatNumber(element.history[0]?.volume_change_24h)}
-            </Td>
-            <Td
-              color={
-                element.history[0]?.percent_change_24h >= 0 ? "green" : "red"
-              }
-            >
-              {formatNumber(element.history[0]?.percent_change_24h)}
+              <Text d="inline-block">
+                <Icon
+                  as={
+                    formatNumber(
+                      element.history[0]?.percent_change_24h
+                    ).includes("-")
+                      ? TiArrowDownThick
+                      : TiArrowUpThick
+                  }
+                  d="inline"
+                />
+                {formatNumber(element.history[0]?.percent_change_24h).replace(
+                  "-",
+                  ""
+                )}
+              </Text>
             </Td>
             <Td
               color={
