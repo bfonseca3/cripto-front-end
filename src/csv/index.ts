@@ -1,0 +1,16 @@
+export const headers = [
+  { label: "date", key: "date" },
+  { label: "price", key: "price" },
+  { label: "valume 24hr", key: "valume_24h" },
+  { label: "valume change 24hr", key: "volume_change_24h" },
+  { label: "% change 1h", key: "percent_change_1h" },
+  { label: "% change 7d", key: "percent_change_7d" },
+  { label: "% change 24h", key: "percent_change_24h" },
+  { label: "% change 30d", key: "percent_change_30d" },
+  { label: "% change 90d", key: "percent_change_90d" },
+  { label: "market cap", key: "market_cap" },
+  { label: "market cap dominance", key: "market_cap_dominance" },
+  { label: "circulation supply", key: "circulating_supply" },
+  { label: "total supply", key: "total_supply" },
+  { label: "max supply", key: "max_supply" },
+];

@@ -83,7 +83,7 @@ export default function Home({ criptoServerSide }: HomeProps) {
         setSearch={setSearch}
         setPage={setPage}
       />
-      <ButtonFloating />
+      {/* <ButtonFloating /> */}
 
       <Table variant="simple" size="sm">
         <TableComponentHeader />
