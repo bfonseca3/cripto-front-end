@@ -20,13 +20,7 @@ export default function CoinEspecific({ coin }: { coin: CriptoResponse }) {
   };
   return (
     <Flex w="100%" justify="center" flexDir={"column"}>
-      <Flex
-        pt="30px"
-        px="30px"
-        pb="30px"
-        border="1px solid black"
-        justify="space-between"
-      >
+      <Flex pt="30px" px="30px" pb="30px" justify="space-between">
         <Flex align="center">
           <Link passHref href="/">
             <Icon
