@@ -7,7 +7,7 @@ export function TableComponentHeader() {
       <Tr d="flex">
         <ThComponents width={70}>Index</ThComponents>
         <ThComponents>Name</ThComponents>
-        <ThComponents>Last Updated</ThComponents>
+        {/* <ThComponents>Last Updated</ThComponents>
         <ThComponents>Price</ThComponents>
         <ThComponents>Volume 24Hr</ThComponents>
         <ThComponents>Volume Change 24hr</ThComponents>
@@ -21,7 +21,7 @@ export function TableComponentHeader() {
         <ThComponents>Market Cap Dominance</ThComponents>
         <ThComponents>Circulating_supply</ThComponents>
         <ThComponents>Total Supply</ThComponents>
-        <ThComponents>Max Supply</ThComponents>
+        <ThComponents>Max Supply</ThComponents> */}
       </Tr>
     </Thead>
   );

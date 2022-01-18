@@ -14,28 +14,21 @@ import { AxiosResponseCoins, CriptoResponse } from "../../type/cripto";
 import { SearchBox } from "../SearchBox";
 import { AiOutlineClose, AiOutlineLogout } from "react-icons/ai";
 import toast, { Toaster } from "react-hot-toast";
+import { CSVLink } from "react-csv";
+import { FiDownload } from "react-icons/fi";
 
 interface HeaderProps {
-  search: string;
-  setSearch: Dispatch<SetStateAction<string>>;
+  // search: string;
+  // setSearch: Dispatch<SetStateAction<string>>;
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
   setCripto: Dispatch<SetStateAction<CriptoResponse[]>>;
-  setAllCoinsForSearch: Dispatch<SetStateAction<CriptoResponse[]>>;
-  allCoinsForSearch: CriptoResponse[];
-  criptoPure: CriptoResponse[];
+  // setAllCoinsForSearch: Dispatch<SetStateAction<CriptoResponse[]>>;
+  // allCoinsForSearch: CriptoResponse[];
+  // criptoPure: CriptoResponse[];
 }
 
-export function Header({
-  page,
-  setPage,
-  search,
-  setSearch,
-  setCripto,
-  setAllCoinsForSearch,
-  allCoinsForSearch,
-  criptoPure,
-}: HeaderProps) {
+export function Header({ page, setPage, setCripto }: HeaderProps) {
   const [progress, setProgress] = useState(false);
 
   function handleLogOut() {
@@ -52,54 +45,68 @@ export function Header({
         params: { start: page - 1 },
       }
     );
-    const criptoFilter = data.filter.filter(
-      (element) => element.history.length > 0
-    );
+    // const criptoFilter = data.filter.filter(
+    //   (element) => element.history.length > 0
+    // );
 
-    setCripto(criptoFilter);
+    setCripto(data.filter);
   }
 
-  async function handleSearch() {
+  // async function handleSearch() {
+  //   setProgress(true);
+  //   let array: CriptoResponse[] = allCoinsForSearch;
+
+  //   if (allCoinsForSearch.length == 0) {
+  //     const { data } = await axios.get<CriptoResponse[]>(
+  //       `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/take/all`
+  //     );
+  //     array = data;
+  //   }
+  //   const value = array.filter((element) => element.name.includes(search));
+
+  //   if (value.length == 0) {
+  //     console.log("entrou no value.length 0");
+  //     toast.error("Coin not exist in this list");
+  //     setSearch("");
+  //     setProgress(false);
+  //     return;
+  //   }
+  //   setCripto(value);
+  //   setAllCoinsForSearch(array);
+  //   console.log(allCoinsForSearch);
+  //   setProgress(false);
+  // }
+
+  // function handleClickReset() {
+  //   setProgress(true);
+  //   setCripto(criptoPure);
+  //   setSearch("");
+
+  //   setTimeout(() => {
+  //     setProgress(false);
+  //   }, 3000);
+  //   return;
+  // }
+
+  // function handlePress(event: any) {
+  //   if (event.key === "Enter") {
+  //     console.log("pegou");
+  //     handleSearch();
+  //   }
+  // }
+
+  async function handleDownload() {
     setProgress(true);
-    let array: CriptoResponse[] = allCoinsForSearch;
 
-    if (allCoinsForSearch.length == 0) {
-      const { data } = await axios.get<CriptoResponse[]>(
-        `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/take/all`
-      );
-      array = data;
-    }
-    const value = array.filter((element) => element.name.includes(search));
-
-    if (value.length == 0) {
-      console.log("entrou no value.length 0");
-      toast.error("Coin not exist in this list");
-      setSearch("");
-      setProgress(false);
-      return;
-    }
-    setCripto(value);
-    setAllCoinsForSearch(array);
-    console.log(allCoinsForSearch);
-    setProgress(false);
-  }
-
-  function handleClickReset() {
-    setProgress(true);
-    setCripto(criptoPure);
-    setSearch("");
+    // const { data } = await axios.get<CriptoResponse[]>(
+    //   `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/take/all`
+    // );
+    alert("Essa feature, esta em processo de desenvolvimento");
+    // console.log(data)
 
     setTimeout(() => {
       setProgress(false);
-    }, 3000);
-    return;
-  }
-
-  function handlePress(event: any) {
-    if (event.key === "Enter") {
-      console.log("pegou");
-      handleSearch();
-    }
+    }, 2000);
   }
 
   return (
@@ -113,11 +120,16 @@ export function Header({
         mr="20px"
         align="center"
       >
-        <SearchBox
+        {/* <Flex>
+          <CSVLink {...dataCSV}>
+            <Icon as={FiDownload} fontSize={"30px"} />
+          </CSVLink>
+        </Flex> */}
+        {/* <SearchBox
           search={search}
           setSearch={setSearch}
           handlePress={handlePress}
-        />
+        /> */}
         {progress ? (
           <CircularProgress
             isIndeterminate
@@ -128,14 +140,13 @@ export function Header({
           />
         ) : (
           <Icon
-            as={AiOutlineClose}
-            fontSize={"35px"}
-            border="1px solid #ddd"
+            as={FiDownload}
+            fontSize={"30px"}
             borderRadius="10px"
-            mt="3px"
-            mr="4px"
+            mt="6px"
+            mr="10px"
             cursor="pointer"
-            onClick={handleClickReset}
+            onClick={handleDownload}
           />
         )}
 

@@ -4,12 +4,10 @@ import { GetStaticProps } from "next";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { AxiosResponseCoins, CriptoResponse } from "../type/cripto";
-import { destroyCookie, parseCookies } from "nookies";
+import { parseCookies } from "nookies";
 import { TableComponentBody } from "../components/TableComponentBody";
 import { TableComponentHeader } from "../components/TableComponentHeader/TableComponentHeader";
-import { ButtonFloating } from "../components/ButtonFloating/ButtonFloating";
 import { Progress } from "../components/Progress";
-import toast, { Toaster } from "react-hot-toast";
 import { Header } from "../components/Header";
 import Router from "next/router";
 
@@ -51,16 +49,7 @@ export default function Home({ criptoServerSide }: HomeProps) {
 
   return (
     <Flex w="100%" justify="center" flexDir={"column"}>
-      <Header
-        page={page}
-        search={search}
-        setCripto={setCripto}
-        setSearch={setSearch}
-        setPage={setPage}
-        setAllCoinsForSearch={setAllCoinsForSearch}
-        allCoinsForSearch={allCoinsForSearch}
-        criptoPure={criptoPure}
-      />
+      <Header page={page} setCripto={setCripto} setPage={setPage} />
       {/* <ButtonFloating /> */}
 
       <Table variant="simple" size="sm">
