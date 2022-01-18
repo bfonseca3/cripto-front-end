@@ -5,16 +5,17 @@ import { Dispatch, SetStateAction } from "react";
 interface SearchProps {
   search: string;
   setSearch: Dispatch<SetStateAction<string>>;
+  handlePress: (event: any) => void;
 }
 
-export function SearchBox({ search, setSearch }: SearchProps) {
+export function SearchBox({ search, setSearch, handlePress }: SearchProps) {
   return (
     <Flex
       as="label"
       flex="1"
       py="2"
       px="5"
-      mr="6"
+      mr="2"
       maxW={400}
       alignSelf="center"
       bg="#f1f1f1f1"
@@ -30,6 +31,7 @@ export function SearchBox({ search, setSearch }: SearchProps) {
         _placeholder={{ color: "gray.400" }}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        onKeyPress={handlePress}
       />
       <Icon as={RiSearch2Line} fontSize="20" />
     </Flex>

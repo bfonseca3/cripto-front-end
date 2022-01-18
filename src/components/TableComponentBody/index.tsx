@@ -27,7 +27,7 @@ function TableComponentBodyComponent({ cripto }: { cripto: CriptoResponse[] }) {
                 </LinkChakra>
               </Link>
             </TdComponent>
-            <TdComponent
+            {/* <TdComponent
               isNumber
               element={
                 element.history.length > 0
@@ -87,7 +87,7 @@ function TableComponentBodyComponent({ cripto }: { cripto: CriptoResponse[] }) {
             <TdComponent
               isNumber
               element={formatNumber(element.history[0]?.max_supply)}
-            />
+            /> */}
           </Tr>
         );
       })}

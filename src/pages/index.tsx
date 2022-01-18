@@ -27,37 +27,13 @@ export default function Home({ criptoServerSide }: HomeProps) {
   );
 
   useEffect(() => {
-    if (search == "") {
-      setCripto(criptoPure);
-      return;
-    }
-    if (search.length >= 3) {
-      console.log("pegou");
-      const value = allCoinsForSearch.filter((element) =>
-        element.name.includes(search)
-      );
-      if (value.length == 0) {
-        toast.error("Coin not exist in this list");
-        setSearch("");
-      }
-      setCripto(value);
-    }
-    return;
-  }, [search]);
-
-  useEffect(() => {
     (async () => {
-      const { data } = await axios.get<CriptoResponse[]>(
-        `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/take/all`
-      );
-      setAllCoinsForSearch(data);
+      // const criptoFilter = criptoServerSide.filter.filter(
+      //   (element) => element?.history?.length > 0
+      // );
 
-      const criptoFilter = criptoServerSide.filter.filter(
-        (element) => element.history.length > 0
-      );
-
-      setCripto(criptoFilter);
-      setCriptoPure(criptoFilter);
+      setCripto(criptoServerSide.filter);
+      setCriptoPure(criptoServerSide.filter);
     })();
   }, []);
 
@@ -75,13 +51,15 @@ export default function Home({ criptoServerSide }: HomeProps) {
 
   return (
     <Flex w="100%" justify="center" flexDir={"column"}>
-      <Toaster />
       <Header
         page={page}
         search={search}
         setCripto={setCripto}
         setSearch={setSearch}
         setPage={setPage}
+        setAllCoinsForSearch={setAllCoinsForSearch}
+        allCoinsForSearch={allCoinsForSearch}
+        criptoPure={criptoPure}
       />
       {/* <ButtonFloating /> */}
 
