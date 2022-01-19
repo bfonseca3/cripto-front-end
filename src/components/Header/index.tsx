@@ -17,7 +17,7 @@ import {
   AiOutlineLogout,
 } from "react-icons/ai";
 import { Toaster } from "react-hot-toast";
-import { CSVDownload } from "react-csv";
+import { CSVDownload, CSVLink } from "react-csv";
 import { FiDownload } from "react-icons/fi";
 import { headersAll } from "../../csv";
 import { BsFillArrowLeftSquareFill } from "react-icons/bs";
@@ -50,6 +50,9 @@ export function Header({ page, setPage }: HeaderProps) {
   }
 
   async function handleNextPage() {
+    if (page == 19) {
+      return;
+    }
     setPage(page + 1);
   }
 
@@ -99,7 +102,7 @@ export function Header({ page, setPage }: HeaderProps) {
         mr="20px"
         align="center"
       >
-        {download && <CSVDownload {...dataCSV} />}
+        {download && <CSVLink {...dataCSV}></CSVLink>}
         {progress && (
           <Button mr="20px" mt="4px" onClick={downloadNow}>
             Download Now
