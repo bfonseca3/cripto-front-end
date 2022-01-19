@@ -1,4 +1,4 @@
-export const headers = [
+export const headersHistory = [
   { label: "date", key: "date" },
   { label: "price", key: "price" },
   { label: "valume 24hr", key: "valume_24h" },
@@ -13,4 +13,23 @@ export const headers = [
   { label: "circulation supply", key: "circulating_supply" },
   { label: "total supply", key: "total_supply" },
   { label: "max supply", key: "max_supply" },
+];
+
+export const headersAll = [
+  { label: "name", key: "name" },
+  { label: "symbol", key: "symbol" },
+  { label: "date", key: "history[0].date" },
+  { label: "price", key: "history[0].price" },
+  { label: "valume 24hr", key: "history[0].valume_24h" },
+  { label: "valume change 24hr", key: "history[0].volume_change_24h" },
+  { label: "% change 1h", key: "history[0].percent_change_1h" },
+  { label: "% change 7d", key: "history[0].percent_change_7d" },
+  { label: "% change 24h", key: "history[0].percent_change_24h" },
+  { label: "% change 30d", key: "history[0].percent_change_30d" },
+  { label: "% change 90d", key: "history[0].percent_change_90d" },
+  { label: "market cap", key: "history[0].market_cap" },
+  { label: "market cap dominance", key: "history[0].market_cap_dominance" },
+  { label: "circulation supply", key: "history[0].circulating_supply" },
+  { label: "total supply", key: "history[0].total_supply" },
+  { label: "max supply", key: "history[0].max_supply" },
 ];

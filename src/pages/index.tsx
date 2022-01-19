@@ -16,24 +16,43 @@ interface HomeProps {
 }
 
 export default function Home({ criptoServerSide }: HomeProps) {
-  const [page, setPage] = useState<number>(1);
-  const [cripto, setCripto] = useState<CriptoResponse[]>([]);
+  const [cripto, setCripto] = useState<CriptoResponse[]>(
+    criptoServerSide.filter
+  );
   const [search, setSearch] = useState("");
   const [criptoPure, setCriptoPure] = useState<CriptoResponse[]>([]);
   const [allCoinsForSearch, setAllCoinsForSearch] = useState<CriptoResponse[]>(
     []
   );
+  const [page, setPage] = useState(1);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     // const criptoFilter = criptoServerSide.filter.filter(
+  //     //   (element) => element?.history?.length > 0
+  //     // );
+
+  //     setCripto(criptoServerSide.filter);
+  //     setCriptoPure(criptoServerSide.filter);
+  //   })();
+  // }, []);
 
   useEffect(() => {
-    (async () => {
-      // const criptoFilter = criptoServerSide.filter.filter(
-      //   (element) => element?.history?.length > 0
-      // );
+    async function Pagination() {
+      setCripto([]);
+      const { data } = await axios.get<AxiosResponseCoins>(
+        `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/filter/front`,
+        {
+          params: {
+            start: page - 1,
+          },
+        }
+      );
 
-      setCripto(criptoServerSide.filter);
-      setCriptoPure(criptoServerSide.filter);
-    })();
-  }, []);
+      setCripto(data.filter);
+    }
+    Pagination();
+  }, [page]);
 
   // Redirect
   useEffect(() => {
@@ -49,7 +68,7 @@ export default function Home({ criptoServerSide }: HomeProps) {
 
   return (
     <Flex w="100%" justify="center" flexDir={"column"}>
-      <Header page={page} setCripto={setCripto} setPage={setPage} />
+      <Header page={page} setPage={setPage} />
       {/* <ButtonFloating /> */}
 
       <Table variant="simple" size="sm">
@@ -68,6 +87,5 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: { criptoServerSide },
-    revalidate: 60 * 10,
   };
 };

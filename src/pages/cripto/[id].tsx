@@ -10,11 +10,11 @@ import Link from "next/link";
 import { parseCookies } from "nookies";
 import { FiDownload } from "react-icons/fi";
 import { CSVLink } from "react-csv";
-import { headers } from "../../csv/index";
+import { headersHistory } from "../../csv/index";
 
 export default function CoinEspecific({ coin }: { coin: CriptoResponse }) {
   const dataCSV = {
-    headers: headers,
+    headers: headersHistory,
     data: coin.history,
     filename: `${coin.name}.csv`,
   };

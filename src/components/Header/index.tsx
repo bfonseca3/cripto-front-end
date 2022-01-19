@@ -9,103 +9,70 @@ import {
 import axios from "axios";
 import Router from "next/router";
 import { destroyCookie } from "nookies";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { AxiosResponseCoins, CriptoResponse } from "../../type/cripto";
-import { SearchBox } from "../SearchBox";
-import { AiOutlineClose, AiOutlineLogout } from "react-icons/ai";
-import toast, { Toaster } from "react-hot-toast";
-import { CSVLink } from "react-csv";
+import {
+  AiOutlineArrowLeft,
+  AiOutlineArrowRight,
+  AiOutlineLogout,
+} from "react-icons/ai";
+import { Toaster } from "react-hot-toast";
+import { CSVDownload } from "react-csv";
 import { FiDownload } from "react-icons/fi";
+import { headersAll } from "../../csv";
+import { BsFillArrowLeftSquareFill } from "react-icons/bs";
 
 interface HeaderProps {
-  // search: string;
-  // setSearch: Dispatch<SetStateAction<string>>;
-  page: number;
   setPage: Dispatch<SetStateAction<number>>;
-  setCripto: Dispatch<SetStateAction<CriptoResponse[]>>;
-  // setAllCoinsForSearch: Dispatch<SetStateAction<CriptoResponse[]>>;
-  // allCoinsForSearch: CriptoResponse[];
-  // criptoPure: CriptoResponse[];
+  page: number;
 }
 
-export function Header({ page, setPage, setCripto }: HeaderProps) {
+export function Header({ page, setPage }: HeaderProps) {
   const [progress, setProgress] = useState(false);
+  const [allcoins, setAllcoins] = useState<CriptoResponse[]>([]);
+  const [download, setDownload] = useState(false);
+
+  const dataCSV = {
+    headers: headersAll,
+    data: allcoins,
+  };
 
   function handleLogOut() {
     destroyCookie(null, "cripto.auth");
     Router.push("/login");
   }
 
-  async function handleNextPage() {
-    setCripto([]);
-
-    const { data } = await axios.get<AxiosResponseCoins>(
-      `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/filter/front`,
-      {
-        params: { start: page - 1 },
-      }
-    );
-    // const criptoFilter = data.filter.filter(
-    //   (element) => element.history.length > 0
-    // );
-
-    setCripto(data.filter);
+  async function handlePrevPage() {
+    setPage(page - 1);
   }
 
-  // async function handleSearch() {
-  //   setProgress(true);
-  //   let array: CriptoResponse[] = allCoinsForSearch;
-
-  //   if (allCoinsForSearch.length == 0) {
-  //     const { data } = await axios.get<CriptoResponse[]>(
-  //       `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/take/all`
-  //     );
-  //     array = data;
-  //   }
-  //   const value = array.filter((element) => element.name.includes(search));
-
-  //   if (value.length == 0) {
-  //     console.log("entrou no value.length 0");
-  //     toast.error("Coin not exist in this list");
-  //     setSearch("");
-  //     setProgress(false);
-  //     return;
-  //   }
-  //   setCripto(value);
-  //   setAllCoinsForSearch(array);
-  //   console.log(allCoinsForSearch);
-  //   setProgress(false);
-  // }
-
-  // function handleClickReset() {
-  //   setProgress(true);
-  //   setCripto(criptoPure);
-  //   setSearch("");
-
-  //   setTimeout(() => {
-  //     setProgress(false);
-  //   }, 3000);
-  //   return;
-  // }
-
-  // function handlePress(event: any) {
-  //   if (event.key === "Enter") {
-  //     console.log("pegou");
-  //     handleSearch();
-  //   }
-  // }
+  async function handleNextPage() {
+    setPage(page + 1);
+  }
 
   async function handleDownload() {
     setProgress(true);
 
-    // const { data } = await axios.get<CriptoResponse[]>(
-    //   `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/take/all`
-    // );
-    alert("Essa feature, esta em processo de desenvolvimento");
-    // console.log(data)
+    let number = 0;
+
+    while (number < 32) {
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/take/all/?start=${number}`
+      );
+      setAllcoins((c) => [...c, ...data]);
+      number++;
+    }
+
+    setDownload(true);
+    setProgress(false);
+    alert(`Download efetuado com sucesso total de dados: ${allcoins.length}`);
+  }
+
+  function downloadNow() {
+    setDownload(true);
 
     setTimeout(() => {
-      setProgress(false);
+      setDownload(false);
     }, 2000);
   }
 
@@ -120,16 +87,17 @@ export function Header({ page, setPage, setCripto }: HeaderProps) {
         mr="20px"
         align="center"
       >
-        {/* <Flex>
-          <CSVLink {...dataCSV}>
-            <Icon as={FiDownload} fontSize={"30px"} />
-          </CSVLink>
-        </Flex> */}
-        {/* <SearchBox
-          search={search}
-          setSearch={setSearch}
-          handlePress={handlePress}
-        /> */}
+        {download && <CSVDownload {...dataCSV} />}
+        {progress && (
+          <Button mr="20px" mt="4px" onClick={downloadNow}>
+            Download Now
+          </Button>
+        )}
+        {progress && (
+          <Text fontSize="20px" mt="5px" mr="10px">
+            {allcoins.length}
+          </Text>
+        )}
         {progress ? (
           <CircularProgress
             isIndeterminate
@@ -149,16 +117,23 @@ export function Header({ page, setPage, setCripto }: HeaderProps) {
             onClick={handleDownload}
           />
         )}
-
-        <Input
-          value={page}
-          onChange={(e) => setPage(Number(e.target.value))}
-          w="80px"
-          placeholder="Page"
-        />
-        <Button w="80px" ml="10px" onClick={handleNextPage}>
-          Enter
-        </Button>
+        <Flex mt="4px" ml="20px">
+          <Icon
+            as={AiOutlineArrowLeft}
+            fontSize={30}
+            cursor={"pointer"}
+            onClick={handlePrevPage}
+          />
+          <Flex px="7px" fontSize="20px">
+            {page}
+          </Flex>
+          <Icon
+            as={AiOutlineArrowRight}
+            fontSize={30}
+            cursor="pointer"
+            onClick={handleNextPage}
+          />
+        </Flex>
       </Flex>
       <Button onClick={handleLogOut}>
         <Text mr="10px" ml="10px">
