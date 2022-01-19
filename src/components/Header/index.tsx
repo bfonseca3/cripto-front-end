@@ -43,7 +43,7 @@ export function Header({ page, setPage }: HeaderProps) {
   }
 
   async function handlePrevPage() {
-    if (page - 1 >= 0) {
+    if (page - 1 <= 0) {
       return;
     }
     setPage(page - 1);
