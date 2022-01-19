@@ -56,9 +56,19 @@ export function Header({ page, setPage }: HeaderProps) {
   async function handleDownload() {
     setProgress(true);
 
+    if (allcoins.length > 0) {
+      setDownload(true);
+
+      setTimeout(() => {
+        setDownload(false);
+      }, 2000);
+
+      return;
+    }
+
     let number = 0;
 
-    while (number < 32) {
+    while (number < 36) {
       const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/take/all/?start=${number}`
       );
@@ -68,7 +78,6 @@ export function Header({ page, setPage }: HeaderProps) {
 
     setDownload(true);
     setProgress(false);
-    alert(`Download efetuado com sucesso total de dados: ${allcoins.length}`);
   }
 
   function downloadNow() {
