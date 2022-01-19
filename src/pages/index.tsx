@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Flex, Table } from "@chakra-ui/react";
-import { GetStaticProps } from "next";
+import { GetServerSideProps, GetStaticProps } from "next";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { AxiosResponseCoins, CriptoResponse } from "../type/cripto";
@@ -19,7 +19,6 @@ export default function Home({ criptoServerSide }: HomeProps) {
   const [cripto, setCripto] = useState<CriptoResponse[]>(
     criptoServerSide.filter
   );
-  const [search, setSearch] = useState("");
   const [criptoPure, setCriptoPure] = useState<CriptoResponse[]>([]);
   const [allCoinsForSearch, setAllCoinsForSearch] = useState<CriptoResponse[]>(
     []
@@ -38,6 +37,10 @@ export default function Home({ criptoServerSide }: HomeProps) {
   // }, []);
 
   useEffect(() => {
+    if (page == 1) {
+      console.log("nao carregou");
+      return;
+    }
     async function Pagination() {
       setCripto([]);
       const { data } = await axios.get<AxiosResponseCoins>(
@@ -79,7 +82,7 @@ export default function Home({ criptoServerSide }: HomeProps) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const { data: criptoServerSide } = await axios.get<AxiosResponseCoins>(
     `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/filter/front`,
     { params: { start: 0 } }

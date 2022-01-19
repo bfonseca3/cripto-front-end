@@ -3,6 +3,7 @@ export interface CriptoResponse {
   id_coin: number;
   name: string;
   symbol: string;
+  rank: number;
   history: History[];
 }
 

@@ -61,11 +61,7 @@ export function Header({ page, setPage }: HeaderProps) {
 
     if (allcoins.length > 0) {
       setDownload(true);
-
-      setTimeout(() => {
-        setDownload(false);
-      }, 2000);
-
+      setProgress(false);
       return;
     }
 
@@ -83,14 +79,6 @@ export function Header({ page, setPage }: HeaderProps) {
     setProgress(false);
   }
 
-  function downloadNow() {
-    setDownload(true);
-
-    setTimeout(() => {
-      setDownload(false);
-    }, 2000);
-  }
-
   return (
     <Flex justify="space-between" w="full" px="30px" mt="20px" mb="20px">
       <Toaster />
@@ -102,11 +90,21 @@ export function Header({ page, setPage }: HeaderProps) {
         mr="20px"
         align="center"
       >
-        {download && <CSVLink {...dataCSV}></CSVLink>}
-        {progress && (
-          <Button mr="20px" mt="4px" onClick={downloadNow}>
+        {download && (
+          <CSVLink
+            {...dataCSV}
+            style={{
+              marginTop: "5px",
+              marginRight: "15px",
+              border: "1px solid #ddd",
+              display: "inline",
+              height: "30px",
+              padding: "3px",
+              borderRadius: "5px",
+            }}
+          >
             Download Now
-          </Button>
+          </CSVLink>
         )}
         {progress && (
           <Text fontSize="20px" mt="5px" mr="10px">
@@ -122,15 +120,17 @@ export function Header({ page, setPage }: HeaderProps) {
             mr="4px"
           />
         ) : (
-          <Icon
-            as={FiDownload}
-            fontSize={"30px"}
-            borderRadius="10px"
-            mt="6px"
-            mr="10px"
-            cursor="pointer"
-            onClick={handleDownload}
-          />
+          !download && (
+            <Icon
+              as={FiDownload}
+              fontSize={"30px"}
+              borderRadius="10px"
+              mt="6px"
+              mr="10px"
+              cursor="pointer"
+              onClick={handleDownload}
+            />
+          )
         )}
         <Flex mt="4px" ml="20px">
           <Icon
