@@ -4,6 +4,7 @@ export interface CriptoResponse {
   name: string;
   symbol: string;
   rank: number;
+  favoriteId?: [];
   history: History[];
 }
 

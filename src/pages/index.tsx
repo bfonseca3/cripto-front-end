@@ -10,15 +10,14 @@ import { TableComponentHeader } from "../components/TableComponentHeader/TableCo
 import { Progress } from "../components/Progress";
 import { Header } from "../components/Header";
 import Router from "next/router";
+import { api } from "../services/apiClient";
 
 interface HomeProps {
   criptoServerSide: AxiosResponseCoins;
 }
 
 export default function Home({ criptoServerSide }: HomeProps) {
-  const [cripto, setCripto] = useState<CriptoResponse[]>(
-    criptoServerSide.filter
-  );
+  const [cripto, setCripto] = useState<CriptoResponse[]>([]);
   const [criptoPure, setCriptoPure] = useState<CriptoResponse[]>([]);
   const [allCoinsForSearch, setAllCoinsForSearch] = useState<CriptoResponse[]>(
     []
@@ -37,20 +36,13 @@ export default function Home({ criptoServerSide }: HomeProps) {
   // }, []);
 
   useEffect(() => {
-    if (page == 1) {
-      console.log("nao carregou");
-      return;
-    }
     async function Pagination() {
       setCripto([]);
-      const { data } = await axios.get<AxiosResponseCoins>(
-        `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/filter/front`,
-        {
-          params: {
-            start: page - 1,
-          },
-        }
-      );
+      const { data } = await api.get<AxiosResponseCoins>(`/coin/filter/front`, {
+        params: {
+          start: page - 1,
+        },
+      });
 
       setCripto(data.filter);
     }
@@ -81,14 +73,3 @@ export default function Home({ criptoServerSide }: HomeProps) {
     </Flex>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const { data: criptoServerSide } = await axios.get<AxiosResponseCoins>(
-    `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/filter/front`,
-    { params: { start: 0 } }
-  );
-
-  return {
-    props: { criptoServerSide },
-  };
-};

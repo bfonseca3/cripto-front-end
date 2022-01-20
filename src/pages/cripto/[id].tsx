@@ -1,7 +1,6 @@
 import { Flex, Icon, Table, Text } from "@chakra-ui/react";
 import axios from "axios";
 import { GetServerSideProps } from "next";
-import { ButtonFloating } from "../../components/ButtonFloating/ButtonFloating";
 import { TablePageFilterBody } from "../../components/PageFilter/TablePageFilterBody";
 import { TablePageFilter } from "../../components/PageFilter/TablePageFilterHeader";
 import { CriptoResponse } from "../../type/cripto";
@@ -11,6 +10,7 @@ import { parseCookies } from "nookies";
 import { FiDownload } from "react-icons/fi";
 import { CSVLink } from "react-csv";
 import { headersHistory } from "../../csv/index";
+import { apiServices } from "../../services/axios";
 
 export default function CoinEspecific({ coin }: { coin: CriptoResponse }) {
   const dataCSV = {
@@ -48,9 +48,10 @@ export default function CoinEspecific({ coin }: { coin: CriptoResponse }) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { id }: any = context.params;
-  const cookie = parseCookies(context);
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { id }: any = ctx.params;
+  const cookie = parseCookies(ctx);
+  const api = apiServices(ctx);
 
   if (!cookie["cripto.auth"]) {
     return {
@@ -61,9 +62,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/take/${id}`
+  const { data } = await api.get(
+    `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/take/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${cookie["cripto.auth"]}`,
+      },
+    }
   );
+
   return {
     props: { coin: data },
   };

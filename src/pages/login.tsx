@@ -4,23 +4,38 @@ import { parseCookies, setCookie } from "nookies";
 import Router from "next/router";
 import { GetServerSideProps } from "next";
 import toast, { Toaster } from "react-hot-toast";
+import { api } from "../services/apiClient";
+
+interface AxiosAuthResponse {
+  token: string;
+}
 
 export default function Login() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
-    if (password == "bruno123" && login == "bruno") {
-      setCookie(null, "cripto.auth", "ed73fcf3-20ce-4dbb-afe8-a6fe7a70bd54", {
-        maxAge: 10800, // 3horas
-        path: "/",
-      });
+    try {
+      const { data, status } = await api.post<AxiosAuthResponse>(
+        "authenticated/user",
+        {
+          username: login,
+          password,
+        }
+      );
 
-      Router.push("/");
-    } else {
-      toast.error("Login or password invalid");
+      if (status == 200) {
+        setCookie(null, "cripto.auth", data.token, {
+          maxAge: 10800, // 3horas
+          path: "/",
+        });
+        Router.push("/");
+      }
+      console.log({ data, status });
+    } catch (e) {
+      toast.error("Username ou password invalid,");
     }
   }
 

@@ -6,6 +6,7 @@ export function TableComponentHeader() {
     <Thead>
       <Tr d="flex">
         <ThComponents width={70}>Index</ThComponents>
+        <ThComponents width={100}>Favorite</ThComponents>
         <ThComponents>Name</ThComponents>
         <ThComponents width={100}>Rank</ThComponents>
         <ThComponents>Last Updated</ThComponents>

@@ -1,26 +1,20 @@
-import {
-  Button,
-  CircularProgress,
-  Flex,
-  Icon,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { Button, CircularProgress, Flex, Icon, Text } from "@chakra-ui/react";
 import axios from "axios";
 import Router from "next/router";
 import { destroyCookie } from "nookies";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { AxiosResponseCoins, CriptoResponse } from "../../type/cripto";
+import { CriptoResponse } from "../../type/cripto";
 import {
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
   AiOutlineLogout,
 } from "react-icons/ai";
 import { Toaster } from "react-hot-toast";
-import { CSVDownload, CSVLink } from "react-csv";
+import { CSVLink } from "react-csv";
 import { FiDownload } from "react-icons/fi";
 import { headersAll } from "../../csv";
-import { BsFillArrowLeftSquareFill } from "react-icons/bs";
+import { BsHeartFill } from "react-icons/bs";
+import Link from "next/link";
 
 interface HeaderProps {
   setPage: Dispatch<SetStateAction<number>>;
@@ -90,6 +84,17 @@ export function Header({ page, setPage }: HeaderProps) {
         mr="20px"
         align="center"
       >
+        <Link passHref href="/favorite">
+          <Icon
+            as={BsHeartFill}
+            cursor="pointer"
+            fontSize="25px"
+            mt="10px"
+            mr="30px"
+            _hover={{ opacity: "0.8" }}
+            _active={{ opacity: "1" }}
+          />
+        </Link>
         {download && (
           <CSVLink
             {...dataCSV}

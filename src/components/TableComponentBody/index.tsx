@@ -1,25 +1,91 @@
-import {
-  Icon,
-  Link as LinkChakra,
-  Tbody,
-  Td,
-  Text,
-  Tr,
-} from "@chakra-ui/react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Flex, Icon, Link as LinkChakra, Tbody, Tr } from "@chakra-ui/react";
 import Link from "next/link";
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { AiFillStar } from "react-icons/ai";
+import { start } from "repl";
+import { api } from "../../services/apiClient";
 import { CriptoResponse } from "../../type/cripto";
-import { formatDate, formatNumber, formatValores } from "../../utils/formatAll";
-import { TiArrowUpThick, TiArrowDownThick } from "react-icons/ti";
+import { formatDate, formatNumber } from "../../utils/formatAll";
 import { TdComponent } from "./TdComponent";
 
-function TableComponentBodyComponent({ cripto }: { cripto: CriptoResponse[] }) {
+interface TableBodyProps {
+  cripto: CriptoResponse[];
+  isFavorite?: boolean;
+}
+
+function TableComponentBodyComponent({
+  cripto,
+  isFavorite = false,
+}: TableBodyProps) {
+  const [favoriteStar, setFavoriteStar] = useState<string[]>([]);
+  const star = cripto.filter((element) => element.favoriteId);
+  const [coins, setCoins] = useState<CriptoResponse[]>(cripto);
+
+  useEffect(() => {
+    if (star.length > 0) {
+      star.map((element) => {
+        setFavoriteStar((c) => [...c, element.id]);
+      });
+    }
+  }, [cripto]);
+
+  async function handleNewStar(id: string) {
+    const { status } = await api.post("/addtofavorite", {
+      id_coin: id,
+    });
+
+    if (status == 201) {
+      setFavoriteStar((c) => [...c, id]);
+      toast.success("Coin added to your list");
+    } else {
+      toast.error("Opss, something is wrong!!!");
+    }
+  }
+
+  async function handleRemoveStar(id: string) {
+    const { status } = await api.post("/removefavorite", {
+      id_coin: id,
+    });
+
+    if (status == 200) {
+      const newCoin = [...coins];
+      const index = newCoin.findIndex((element) => element.id === id);
+      newCoin.splice(index, 1);
+
+      setCoins([...newCoin]);
+
+      toast.success("Removed success!");
+    }
+  }
   return (
     <Tbody>
-      {cripto.map((element, index) => {
+      <Toaster />
+      {coins.map((element, index) => {
         return (
           <Tr key={element.id} display="flex">
             <TdComponent isNumber element={index + 1} width={70} />
+            <TdComponent width={100}>
+              <Flex width="full" justify="center">
+                <Icon
+                  as={AiFillStar}
+                  color={
+                    favoriteStar.includes(element.id)
+                      ? "yellow.300"
+                      : "blue.200"
+                  }
+                  borderStyle={"outset"}
+                  fontSize="20px"
+                  cursor="pointer"
+                  onClick={() =>
+                    !isFavorite
+                      ? handleNewStar(element.id)
+                      : handleRemoveStar(element.id)
+                  }
+                />
+              </Flex>
+            </TdComponent>
             <TdComponent>
               <Link passHref href={`/cripto/${element.id_coin}`}>
                 <LinkChakra color="darkblue">

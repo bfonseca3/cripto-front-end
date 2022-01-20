@@ -1,7 +1,6 @@
 import { Icon, Td, Text } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { TiArrowDownThick, TiArrowUpThick } from "react-icons/ti";
-import { formatValores } from "../../utils/formatAll";
 
 interface TdProps {
   element?: string | number;
