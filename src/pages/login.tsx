@@ -31,6 +31,8 @@ export default function Login() {
           maxAge: 10800, // 3horas
           path: "/",
         });
+        api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+
         Router.push("/");
       }
       console.log({ data, status });

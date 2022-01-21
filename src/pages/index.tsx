@@ -18,10 +18,6 @@ interface HomeProps {
 
 export default function Home({ criptoServerSide }: HomeProps) {
   const [cripto, setCripto] = useState<CriptoResponse[]>([]);
-  const [criptoPure, setCriptoPure] = useState<CriptoResponse[]>([]);
-  const [allCoinsForSearch, setAllCoinsForSearch] = useState<CriptoResponse[]>(
-    []
-  );
   const [page, setPage] = useState(1);
 
   // useEffect(() => {
@@ -37,6 +33,11 @@ export default function Home({ criptoServerSide }: HomeProps) {
 
   useEffect(() => {
     async function Pagination() {
+      const { ["cripto.auth"]: token } = parseCookies();
+      if (token) {
+        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
+
       setCripto([]);
       const { data } = await api.get<AxiosResponseCoins>(`/coin/filter/front`, {
         params: {

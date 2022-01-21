@@ -1,5 +1,4 @@
 import { Flex, Icon, Table, Text } from "@chakra-ui/react";
-import axios from "axios";
 import { GetServerSideProps } from "next";
 import { TablePageFilterBody } from "../../components/PageFilter/TablePageFilterBody";
 import { TablePageFilter } from "../../components/PageFilter/TablePageFilterHeader";
