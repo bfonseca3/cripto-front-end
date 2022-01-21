@@ -5,6 +5,7 @@ import Router from "next/router";
 import { GetServerSideProps } from "next";
 import toast, { Toaster } from "react-hot-toast";
 import { api } from "../services/apiClient";
+import { SEO } from "../SEO";
 
 interface AxiosAuthResponse {
   token: string;
@@ -43,6 +44,7 @@ export default function Login() {
 
   return (
     <Flex w="100%" h="100vh" align="center" justify="center">
+      <SEO description="Login" />
       <Toaster />
       <Flex
         w="500px"

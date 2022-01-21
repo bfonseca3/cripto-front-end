@@ -5,6 +5,7 @@ import { parseCookies } from "nookies";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { TableComponentBody } from "../components/TableComponentBody";
 import { TableComponentHeader } from "../components/TableComponentHeader/TableComponentHeader";
+import { SEO } from "../SEO";
 import { api } from "../services/apiClient";
 import { CriptoResponse } from "../type/cripto";
 
@@ -18,6 +19,7 @@ interface favoriteProps {
 export default function Favorite({ user }: favoriteProps) {
   return (
     <Flex flexDir="column">
+      <SEO description="Favorite" />
       <Flex p="20px" align="center" w="full" borderBottom="2px solid #ddd">
         <Link passHref href="/">
           <Icon

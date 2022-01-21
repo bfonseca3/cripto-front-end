@@ -9,6 +9,7 @@ import { Progress } from "../components/Progress";
 import { Header } from "../components/Header";
 import Router from "next/router";
 import { api } from "../services/apiClient";
+import { SEO } from "../SEO/index";
 
 export default function Home() {
   const [cripto, setCripto] = useState<CriptoResponse[]>([]);
@@ -42,6 +43,7 @@ export default function Home() {
 
   return (
     <Flex w="100%" justify="center" flexDir={"column"}>
+      <SEO />
       <Header page={page} setPage={setPage} />
       {/* <ButtonFloating /> */}
 

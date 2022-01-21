@@ -10,6 +10,7 @@ import { FiDownload } from "react-icons/fi";
 import { CSVLink } from "react-csv";
 import { headersHistory } from "../../csv/index";
 import { apiServices } from "../../services/axios";
+import { SEO } from "../../SEO";
 
 export default function CoinEspecific({ coin }: { coin: CriptoResponse }) {
   const dataCSV = {
@@ -19,6 +20,7 @@ export default function CoinEspecific({ coin }: { coin: CriptoResponse }) {
   };
   return (
     <Flex w="100%" justify="center" flexDir={"column"}>
+      <SEO description={coin.name} />
       <Flex pt="30px" px="30px" pb="30px" justify="space-between">
         <Flex align="center">
           <Link passHref href="/">
