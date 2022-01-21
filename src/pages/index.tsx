@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Flex, Table } from "@chakra-ui/react";
-import { GetServerSideProps, GetStaticProps } from "next";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { AxiosResponseCoins, CriptoResponse } from "../type/cripto";
 import { parseCookies } from "nookies";
@@ -12,32 +10,12 @@ import { Header } from "../components/Header";
 import Router from "next/router";
 import { api } from "../services/apiClient";
 
-interface HomeProps {
-  criptoServerSide: AxiosResponseCoins;
-}
-
-export default function Home({ criptoServerSide }: HomeProps) {
+export default function Home() {
   const [cripto, setCripto] = useState<CriptoResponse[]>([]);
   const [page, setPage] = useState(1);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     // const criptoFilter = criptoServerSide.filter.filter(
-  //     //   (element) => element?.history?.length > 0
-  //     // );
-
-  //     setCripto(criptoServerSide.filter);
-  //     setCriptoPure(criptoServerSide.filter);
-  //   })();
-  // }, []);
-
   useEffect(() => {
     async function Pagination() {
-      const { ["cripto.auth"]: token } = parseCookies();
-      if (token) {
-        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      }
-
       setCripto([]);
       const { data } = await api.get<AxiosResponseCoins>(`/coin/filter/front`, {
         params: {

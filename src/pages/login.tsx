@@ -31,18 +31,18 @@ export default function Login() {
           maxAge: 10800, // 3horas
           path: "/",
         });
-        api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
 
         Router.push("/");
+      } else {
+        toast.error("Username ou password invalid,");
       }
-      console.log({ data, status });
     } catch (e) {
       toast.error("Username ou password invalid,");
     }
   }
 
   return (
-    <Flex w="100%" h="100vh" align="center" justify="center" bg="#FAFAFA">
+    <Flex w="100%" h="100vh" align="center" justify="center">
       <Toaster />
       <Flex
         w="500px"
@@ -52,6 +52,7 @@ export default function Login() {
         flexDir="column"
         py="80px"
         px="50px"
+        bg="dark"
         borderRadius={"10px"}
       >
         <Text fontSize="32px">Login</Text>

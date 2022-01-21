@@ -1,9 +1,21 @@
-import { Button, CircularProgress, Flex, Icon, Text } from "@chakra-ui/react";
+import {
+  CircularProgress,
+  Flex,
+  Icon,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+  useColorMode,
+  IconButton,
+} from "@chakra-ui/react";
 import axios from "axios";
 import Router from "next/router";
 import { destroyCookie } from "nookies";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { CriptoResponse } from "../../type/cripto";
+import { DiAptana } from "react-icons/di";
 import {
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
@@ -22,6 +34,7 @@ interface HeaderProps {
 }
 
 export function Header({ page, setPage }: HeaderProps) {
+  const { toggleColorMode, colorMode } = useColorMode();
   const [progress, setProgress] = useState(false);
   const [allcoins, setAllcoins] = useState<CriptoResponse[]>([]);
   const [download, setDownload] = useState(false);
@@ -155,12 +168,22 @@ export function Header({ page, setPage }: HeaderProps) {
           />
         </Flex>
       </Flex>
-      <Button onClick={handleLogOut}>
-        <Text mr="10px" ml="10px">
-          Logout
-        </Text>
-        <Icon as={AiOutlineLogout} mr="5px" />
-      </Button>
+      <Menu>
+        <MenuButton as={IconButton} icon={<DiAptana fontSize={"25px"} />} />
+        <MenuList>
+          <MenuItem onClick={handleLogOut}>
+            <Text mr="10px" ml="10px">
+              Logout
+            </Text>
+            <Icon as={AiOutlineLogout} mr="5px" />
+          </MenuItem>
+          <MenuItem onClick={() => toggleColorMode()}>
+            <Text mr="10px" ml="10px">
+              Change for theme {colorMode === "light" ? "Dark" : "Light"}
+            </Text>
+          </MenuItem>
+        </MenuList>
+      </Menu>
     </Flex>
   );
 }

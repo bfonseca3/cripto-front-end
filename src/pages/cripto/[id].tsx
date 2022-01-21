@@ -38,7 +38,6 @@ export default function CoinEspecific({ coin }: { coin: CriptoResponse }) {
           </CSVLink>
         </Flex>
       </Flex>
-      {/* <ButtonFloating /> */}
       <Table variant="simple" size="sm">
         <TablePageFilter />
         <TablePageFilterBody history={coin.history} />

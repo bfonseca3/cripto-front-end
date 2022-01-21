@@ -1,4 +1,4 @@
-import { Icon, Td, Text } from "@chakra-ui/react";
+import { Icon, Td, Text, useColorMode } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { TiArrowDownThick, TiArrowUpThick } from "react-icons/ti";
 
@@ -19,10 +19,12 @@ export function TdComponent({
   children,
   isPrice = false,
 }: TdProps) {
+  const { colorMode } = useColorMode();
+  const light = colorMode === "light";
   if (isNumber) {
     return (
       <Td
-        border="1px solid #ddd"
+        border={light ? "1px solid #999" : "1px solid #666"}
         d="flex"
         w={`${width}px`}
         fontSize=".8rem"
@@ -36,7 +38,7 @@ export function TdComponent({
   if (isValue) {
     return (
       <Td
-        border="1px solid #ddd"
+        border={light ? "1px solid #999" : "1px solid #666"}
         d="flex"
         w={`${width}px`}
         fontSize=".8rem"
@@ -58,7 +60,7 @@ export function TdComponent({
   if (children) {
     return (
       <Td
-        border="1px solid #ddd"
+        border={light ? "1px solid #999" : "1px solid #666"}
         d="flex"
         w={`${width}px`}
         fontSize=".8rem"
@@ -72,7 +74,7 @@ export function TdComponent({
   if (isPrice) {
     return (
       <Td
-        border="1px solid #ddd"
+        border={light ? "1px solid #999" : "1px solid #666"}
         d="flex"
         w={`${width}px`}
         fontSize=".8rem"

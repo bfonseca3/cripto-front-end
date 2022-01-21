@@ -1,4 +1,4 @@
-import { Th } from "@chakra-ui/react";
+import { Th, useColorMode } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
 interface ThComponentsProps {
@@ -7,9 +7,11 @@ interface ThComponentsProps {
 }
 
 export function ThComponents({ children, width = 200 }: ThComponentsProps) {
+  const { colorMode } = useColorMode();
+  const light = colorMode === "light";
   return (
     <Th
-      border="1px solid #999"
+      border={light ? "1px solid #999" : "1px solid #666"}
       d="flex"
       w={`${width}px`}
       fontSize=".8rem"

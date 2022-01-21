@@ -57,10 +57,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     }
   );
+
   const user = {
     name: data.name,
     coins: data.Favorite.coins,
   };
+
   return {
     props: { user },
   };

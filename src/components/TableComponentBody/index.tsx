@@ -1,5 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Flex, Icon, Link as LinkChakra, Tbody, Tr } from "@chakra-ui/react";
+import {
+  Flex,
+  Icon,
+  Link as LinkChakra,
+  Tbody,
+  Tr,
+  useColorMode,
+} from "@chakra-ui/react";
 import Link from "next/link";
 import { memo, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
@@ -22,6 +29,8 @@ function TableComponentBodyComponent({
   const [favoriteStar, setFavoriteStar] = useState<string[]>([]);
   const star = cripto.filter((element) => element.favoriteId);
   const [coins, setCoins] = useState<CriptoResponse[]>(cripto);
+  const { colorMode } = useColorMode();
+  const light = colorMode === "light";
 
   useEffect(() => {
     if (star.length > 0) {
@@ -88,7 +97,7 @@ function TableComponentBodyComponent({
             </TdComponent>
             <TdComponent>
               <Link passHref href={`/cripto/${element.id_coin}`}>
-                <LinkChakra color="darkblue">
+                <LinkChakra color={light ? "darkblue" : "blue.300"}>
                   {element.name} {`[${element.symbol}]`}
                 </LinkChakra>
               </Link>

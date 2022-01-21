@@ -1,5 +1,4 @@
 import { format } from "date-fns";
-import { useCallback } from "react";
 import ptBR from "date-fns/locale/pt-BR";
 
 export const formatValores = (number: number) => {
