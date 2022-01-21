@@ -18,6 +18,7 @@ export const headersHistory = [
 export const headersAll = [
   { label: "name", key: "name" },
   { label: "symbol", key: "symbol" },
+  { label: "rank", key: "rank" },
   { label: "date", key: "history[0].date" },
   { label: "price", key: "history[0].price" },
   { label: "valume 24hr", key: "history[0].valume_24h" },
