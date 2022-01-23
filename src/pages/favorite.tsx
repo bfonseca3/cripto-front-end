@@ -51,21 +51,27 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
-  const { data } = await api.get(
-    `${process.env.NEXT_PUBLIC_URL_BACKEND}/favorite/user`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  try {
+    const { data } = await api.get(
+      `${process.env.NEXT_PUBLIC_URL_BACKEND}/favorite/user`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-  const user = {
-    name: data.name,
-    coins: data.Favorite.coins,
-  };
+    const user = {
+      name: data.name,
+      coins: data.Favorite.coins,
+    };
 
-  return {
-    props: { user },
-  };
+    return {
+      props: { user },
+    };
+  } catch (e) {
+    return {
+      notFound: true,
+    };
+  }
 };

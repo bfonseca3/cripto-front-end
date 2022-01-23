@@ -18,13 +18,20 @@ export default function Home() {
   useEffect(() => {
     async function Pagination() {
       setCripto([]);
-      const { data } = await api.get<AxiosResponseCoins>(`/coin/filter/front`, {
-        params: {
-          start: page - 1,
-        },
-      });
+      try {
+        const { data } = await api.get<AxiosResponseCoins>(
+          `/coin/filter/front`,
+          {
+            params: {
+              start: page - 1,
+            },
+          }
+        );
 
-      setCripto(data.filter);
+        setCripto(data.filter);
+      } catch (e) {
+        console.log(e.message);
+      }
     }
     Pagination();
   }, [page]);

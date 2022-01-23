@@ -62,16 +62,22 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
-  const { data } = await api.get(
-    `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/take/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${cookie["cripto.auth"]}`,
-      },
-    }
-  );
+  try {
+    const { data } = await api.get(
+      `${process.env.NEXT_PUBLIC_URL_BACKEND}/coin/take/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${cookie["cripto.auth"]}`,
+        },
+      }
+    );
 
-  return {
-    props: { coin: data },
-  };
+    return {
+      props: { coin: data },
+    };
+  } catch (e) {
+    return {
+      notFound: true,
+    };
+  }
 };
