@@ -29,7 +29,7 @@ export default function Home() {
         );
 
         setCripto(data.filter);
-      } catch (e) {
+      } catch (e: any) {
         console.log(e.message);
       }
     }
