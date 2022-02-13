@@ -2,12 +2,10 @@
 import { Flex, Table } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { AxiosResponseCoins, CriptoResponse } from "../type/cripto";
-import { parseCookies } from "nookies";
 import { TableComponentBody } from "../components/TableComponentBody";
 import { TableComponentHeader } from "../components/TableComponentHeader/TableComponentHeader";
 import { Progress } from "../components/Progress";
 import { Header } from "../components/Header";
-import Router from "next/router";
 import { api } from "../services/apiClient";
 import { SEO } from "../SEO/index";
 
@@ -36,14 +34,6 @@ export default function Home() {
     Pagination();
   }, [page]);
 
-  // Redirect
-  useEffect(() => {
-    const cookie = parseCookies();
-
-    if (!cookie["cripto.auth"]) {
-      Router.push("/login");
-    }
-  }, []);
   if (cripto.length == 0) {
     return <Progress />;
   }

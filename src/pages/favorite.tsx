@@ -42,14 +42,14 @@ export default function Favorite({ user }: favoriteProps) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { ["cripto.auth"]: token } = parseCookies(ctx);
 
-  if (!token) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
+  // if (!token) {
+  //   return {
+  //     redirect: {
+  //       destination: "/login",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
   try {
     const { data } = await api.get(
